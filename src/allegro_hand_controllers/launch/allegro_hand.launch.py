@@ -75,7 +75,7 @@ def generate_launch_description():
         
         	for cmd in commands:
             		# result = os.system(f'echo "{password}" | sudo -S {cmd}')
-			result = os.system(cmd)
+			        result = os.system(cmd)
             		if result != 0:
                 		print(f"Command failed: {cmd}")
                 		success = False
