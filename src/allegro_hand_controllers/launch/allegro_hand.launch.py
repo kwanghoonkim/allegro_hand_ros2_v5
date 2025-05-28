@@ -70,11 +70,12 @@ def generate_launch_description():
     	]
     
     	while True:
-        	password = getpass.getpass('Enter sudo password: ')
+        	# password = getpass.getpass('Enter sudo password: ')
         	success = True
         
         	for cmd in commands:
-            		result = os.system(f'echo "{password}" | sudo -S {cmd}')
+            		# result = os.system(f'echo "{password}" | sudo -S {cmd}')
+			result = os.system(cmd)
             		if result != 0:
                 		print(f"Command failed: {cmd}")
                 		success = False
