@@ -7,6 +7,7 @@ from ament_index_python.packages import get_package_share_directory
 from launch.conditions import IfCondition
 import os
 import getpass
+import time
 
 def generate_launch_description():
 	allegro_hand_controllers_share = get_package_share_directory('allegro_hand_controllers')
@@ -69,7 +70,8 @@ def generate_launch_description():
 			f"sudo ip link set {can_port} up"
 		]
 
-		while True:
+		max_attempts = 10
+		while max_attempts > 0:
 			success = True
 
 			for cmd in commands:
@@ -82,8 +84,14 @@ def generate_launch_description():
 			if success:
 				print(f'{can_port} setup completed')
 				break
+			elif max_attempts == 0:
+				print(f'{can_port} setup failed. Please check if the CAN port is connected to the computer or the required privileges are set.')
+				break
 			else:
-				print(f'{can_port} setup failed. Please try again.')
+				print(f'{can_port} setup failed. {max_attempts} attempts left.')
+				max_attempts -= 1
+				time.sleep(1)
+
 		return []
 
 	urdf_path = PythonExpression([
